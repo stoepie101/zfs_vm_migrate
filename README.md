@@ -64,7 +64,7 @@ Follow these steps to register the interface on both cluster host servers.
 1. Navigate to the **Plugins** tab on your Unraid Dashboard.
 2. Select the **Install Plugin** sub-tab layer.
 3. Paste your public installer package manifest URL link:
-   `https://githubusercontent.com`
+   `https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg`
 4. Click **Install**. Repeat this step on your second server.
 
 ### 2. Map Your Cluster Virtual Machine Matrices
