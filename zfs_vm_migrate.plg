@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE PLUGIN [
-<!ENTITY name      "ZFS VM Live Migrate">
+<!ENTITY name      "zfs_vm_migrate">
+<!ENTITY title     "ZFS VM Live Migrate">
 <!ENTITY author    "WJRTech">
 <!ENTITY version   "2026.06.23x">
 <!ENTITY launch    "Settings/&name;">
