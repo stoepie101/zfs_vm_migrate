@@ -2,12 +2,13 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23u">
+<!ENTITY version   "2026.06.23v">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
+<!ENTITY iconURL   "https://github.com/stoepie101/zfs_vm_migrate/blob/0a1632a256315f573830bb801e9fc8b06ac8e8d6/zfs_vm_migrate.png">
 ]>
 
-<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="/plugins/&name;/images/&name;.png" min="6.12.0">
+<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&iconURL;" min="6.12.0">
 
 <README>
 ### ZFS Multi-VM Live Migration Node
@@ -126,11 +127,12 @@ mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate
 mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate/images
 mkdir -p /boot/config/plugins/zfs_vm_migrate
 
-wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh https://githubusercontent.com
+# FIXED: Exact explicit raw download destinations mapped to your specific repository branches
+wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.sh
 chmod +x /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh
 
-wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.png https://githubusercontent.com
-wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png https://githubusercontent.com
+wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.png https://github.com/stoepie101/zfs_vm_migrate/blob/0a1632a256315f573830bb801e9fc8b06ac8e8d6/zfs_vm_migrate.png
+wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png https://github.com/stoepie101/zfs_vm_migrate/blob/0a1632a256315f573830bb801e9fc8b06ac8e8d6/zfs_vm_migrate.png
 
 JSON_FILE="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json"
 if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GLOBAL_PADDING\": \"10\",\n  \"VMS\": []\n}" > "$JSON_FILE"; fi
