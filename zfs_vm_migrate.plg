@@ -2,12 +2,13 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23m">
+<!ENTITY version   "2026.06.23s">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
+<!ENTITY iconURL   "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png">
 ]>
 
-<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.0">
+<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&iconURL;" min="6.12.0">
 
 <README>
 ### ZFS Multi-VM Live Migration Node
@@ -19,7 +20,7 @@ Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing n
 <![CDATA[
 Menu="Settings"
 Title="ZFS VM Migrate"
-Icon="/plugins/zfs_vm_migrate/zfs_vm_migrate.png"
+Icon="zfs_vm_migrate.png"
 ---
 <?php
 $json_file = "/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json";
@@ -123,10 +124,15 @@ function runDynamicClusterMigration() {
 <FILE Run="/bin/bash">
 <INLINE>
 mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate
+mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate/images
 mkdir -p /boot/config/plugins/zfs_vm_migrate
+
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh https://githubusercontent.com
 chmod +x /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh
+
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.png https://githubusercontent.com
+wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png https://githubusercontent.com
+
 JSON_FILE="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json"
 if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GLOBAL_PADDING\": \"10\",\n  \"VMS\": []\n}" > "$JSON_FILE"; fi
 </INLINE>
