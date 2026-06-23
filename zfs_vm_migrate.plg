@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23n">
+<!ENTITY version   "2026.06.23o">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://githubusercontent.com">
 ]>
@@ -19,7 +19,7 @@ Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing n
 <![CDATA[
 Menu="Settings"
 Title="ZFS VM Migrate"
-Icon="zfs_vm_migrate.png"
+Icon="clone"
 ---
 <?php
 $json_file = "/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json";
@@ -49,6 +49,22 @@ if (isset($_POST['delete_vm'])) {
     echo "<script>alert('VM profile dropped.');</script>";
 }
 ?>
+<!-- FIXED: Custom header styles injected dynamically to force web icon rendering -->
+<script>
+$(function() {
+    var iconUrl = '/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png';
+    $('img[src*="zfs_vm_migrate"]').attr('src', iconUrl);
+    $('.nav-settings .zfs_vm_migrate, i.fa-clone').each(function() {
+        $(this).css({
+            'background-image': 'url(' + iconUrl + ')',
+            'background-size': 'contain',
+            'background-repeat': 'no-repeat',
+            'background-position': 'center'
+        }).removeClass('fa-clone');
+    });
+});
+</script>
+
 <form method="POST" action="">
     <h2 style="color:#ff8c00; margin-top:20px;">Global Engine Synchronization Thresholds</h2>
     <table class="form_table">
@@ -123,14 +139,12 @@ function runDynamicClusterMigration() {
 <FILE Run="/bin/bash">
 <INLINE>
 mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate
-# FIXED: Generates standard internal web server image caching folder tree frameworks
 mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate/images
 mkdir -p /boot/config/plugins/zfs_vm_migrate
 
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh https://githubusercontent.com
 chmod +x /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh
 
-# FIXED: Mirrors the customized icon straight to both public web root path locations to guarantee web server container availability
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.png https://githubusercontent.com
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png https://githubusercontent.com
 
