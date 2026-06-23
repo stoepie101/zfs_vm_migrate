@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
-<!ENTITY author    "stoepie101">
-<!ENTITY version   "2026.06.23j">
+<!ENTITY author    "WJRTech">
+<!ENTITY version   "2026.06.23k">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://githubusercontent.com">
 ]>
@@ -11,7 +11,7 @@
 
 <README>
 ### ZFS Multi-VM Live Migration Node
-Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing native ZZFS replication streams.
+Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing native ZFS replication streams.
 </README>
 
 <FILE Name="/usr/local/emhttp/plugins/&name;/&name;.page">
@@ -122,18 +122,18 @@ function runDynamicClusterMigration() {
 
 <FILE Run="/bin/bash">
 <INLINE>
-mkdir -p /usr/local/emhttp/plugins/&name;
-mkdir -p /boot/config/plugins/&name;
-wget -q -O /usr/local/emhttp/plugins/&name;/zfs_vm_migrate.sh https://githubusercontent.com
-chmod +x /usr/local/emhttp/plugins/&name;/zfs_vm_migrate.sh
-JSON_FILE="/boot/config/plugins/&name;/zfs_vm_migrate.json"
+mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate
+mkdir -p /boot/config/plugins/zfs_vm_migrate
+wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh https://githubusercontent.com
+chmod +x /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh
+JSON_FILE="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json"
 if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GLOBAL_PADDING\": \"10\",\n  \"VMS\": []\n}" > "$JSON_FILE"; fi
 </INLINE>
 </FILE>
 
 <FILE Remove="/bin/bash">
 <INLINE>
-rm -rf /usr/local/emhttp/plugins/&name;
+rm -rf /usr/local/emhttp/plugins/zfs_vm_migrate
 </INLINE>
 </FILE>
 </plugin>
