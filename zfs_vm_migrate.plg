@@ -1,19 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE PLUGIN [
-<!ENTITY name      "zfs_vm_migrate">
+<!ENTITY name      "ZFS VM Live Migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23w">
+<!ENTITY version   "2026.06.23x">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
 <!ENTITY iconURL   "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png">
 ]>
 
-<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&iconURL;" min="6.12.0">
+<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="/usr/local/emhttp/plugins/&name;/&name;.png"
+ min="6.12.0">
 
 <README>
 ### ZFS Multi-VM Live Migration Node
 Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing native ZFS replication streams and dynamic UEFI NVRAM variable patches.
 </README>
+
+<!-- The Icon file -->
+<FILE Name="/usr/local/emhttp/plugins/&name;/&name;.png">
+  <URL>&iconURL;</URL>
+</FILE>
+
 
 <FILE Name="/usr/local/emhttp/plugins/&name;/&name;.page">
 <INLINE>
@@ -144,4 +151,11 @@ if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GL
 rm -rf /usr/local/emhttp/plugins/zfs_vm_migrate
 </INLINE>
 </FILE>
+<REMOVE Name="&name;">
+  <INLINE>
+    rm -rf /usr/local/emhttp/plugins/&name;
+    <!-- add your other removal commands here -->
+  </INLINE>
+</REMOVE>
+
 </plugin>
