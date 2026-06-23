@@ -5,7 +5,7 @@
 <!ENTITY version   "2026.06.23v">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
-<!ENTITY iconURL   "https://github.com/stoepie101/zfs_vm_migrate/blob/0a1632a256315f573830bb801e9fc8b06ac8e8d6/zfs_vm_migrate.png">
+<!ENTITY iconURL   "https://github.com/stoepie101/zfs_vm_migrate/blob/db6c7c62afcf9f4558d418600469a0cf79365085/zfs_vm_migrate.png">
 ]>
 
 <plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&iconURL;" min="6.12.0">
