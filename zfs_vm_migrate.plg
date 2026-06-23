@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23m">
+<!ENTITY version   "2026.06.23n">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://githubusercontent.com">
 ]>
@@ -19,7 +19,7 @@ Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing n
 <![CDATA[
 Menu="Settings"
 Title="ZFS VM Migrate"
-Icon="/plugins/zfs_vm_migrate/zfs_vm_migrate.png"
+Icon="zfs_vm_migrate.png"
 ---
 <?php
 $json_file = "/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json";
@@ -123,10 +123,17 @@ function runDynamicClusterMigration() {
 <FILE Run="/bin/bash">
 <INLINE>
 mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate
+# FIXED: Generates standard internal web server image caching folder tree frameworks
+mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate/images
 mkdir -p /boot/config/plugins/zfs_vm_migrate
+
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh https://githubusercontent.com
 chmod +x /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh
+
+# FIXED: Mirrors the customized icon straight to both public web root path locations to guarantee web server container availability
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.png https://githubusercontent.com
+wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png https://githubusercontent.com
+
 JSON_FILE="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json"
 if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GLOBAL_PADDING\": \"10\",\n  \"VMS\": []\n}" > "$JSON_FILE"; fi
 </INLINE>
