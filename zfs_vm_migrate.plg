@@ -3,13 +3,13 @@
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY title     "ZFS VM Live Migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23x">
+<!ENTITY version   "2026.06.23y">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
 <!ENTITY iconURL   "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png">
 ]>
 
-<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="/boot/config/plugins/&name;/&name;.png" min="6.12.0">
+<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.png" min="6.12.0">
 
 
 <README>
@@ -18,7 +18,7 @@ Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing n
 </README>
 
 <!-- The Icon file -->
-<FILE Name="/boot/config/plugins/&name;/&name;.png">
+<FILE Name="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.png">
   <URL>&iconURL;</URL>
 </FILE>
 
