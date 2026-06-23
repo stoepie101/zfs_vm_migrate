@@ -35,22 +35,22 @@ Because you are migrating live memory blocks across different physical processor
 
 
 1. Create the ZFS dataset that will hold the vdisk for the VM.
-  1.1 Ensure you have a ZFS pool for this. A fast NVME pool would be ideal.
-  1.2 In the Unraid Shares Tab, create a new share that is unique to your intended VM and set the Primary storage as the ZFS pool, and Secondary storage to None.
+   * Ensure you have a ZFS pool for this. A fast NVME pool would be ideal.
+   * In the Unraid Shares Tab, create a new share that is unique to your intended VM and set the Primary storage as the ZFS pool, and Secondary storage to None.
       If you have ZFS Master Installed, this share should show up as a dataset in your zfs pool.
    
-3. Create the INITIAL Source Virtual Machine
-  2.1 Open the VMS Tab and select ADD VM.
-  2.2 For this example, select Ubuntu as the VM template.
-  2.3 Set your Unique VM Name
-  2.4 Change CPU Mode to "Emulated (QEMU64)"
-  2.5 Click "DESELECT ALL" to remove any pinned cpu cores
-  2.6 Now in the vCPUs dropdown select your required CPU core count. (Remember that it has to be within the limits of the Source and Target Unraid Servers)
-  2.7 Now set the required RAM for the VM (Remember that it has to be within the limits of the Source and Target Unraid Servers)
-  2.8 In "OS Install ISO" select the ISO to use for the OS installation
-  2.9 Set the Primary vDisk Location to "Manual" and set the path to: /mnt/user/<your_zfs_dataset_name>/
-  2.10 Set your vDisk Size, and set vDisk Type to qcow2.
-  2.11 Create the VM, start it up and complete your OS install.
+2. Create the INITIAL Source Virtual Machine
+   * Open the VMS Tab and select ADD VM.
+   * For this example, select Ubuntu as the VM template.
+   * Set your Unique VM Name
+   * Change CPU Mode to "Emulated (QEMU64)"
+   * Click "DESELECT ALL" to remove any pinned cpu cores
+   * Now in the vCPUs dropdown select your required CPU core count. (Remember that it has to be within the limits of the Source and Target Unraid Servers)
+   * Now set the required RAM for the VM (Remember that it has to be within the limits of the Source and Target Unraid Servers)
+   * In "OS Install ISO" select the ISO to use for the OS installation
+   * Set the Primary vDisk Location to "Manual" and set the path to: /mnt/user/<your_zfs_dataset_name>/
+   * Set your vDisk Size, and set vDisk Type to qcow2.
+   * Create the VM, start it up and complete your OS install.
    
    * Note: Any setting you make in setting up the VM has to be universal between the 2 Unraid servers. So you cant use a physical Network card passed through on Server 1 that does not exist on Server 2.
            So recomendation is to use br0 or Unraid br0.X VLANS that have been set up the same across both servers
