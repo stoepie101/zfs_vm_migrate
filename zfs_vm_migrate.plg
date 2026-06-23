@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name      "zfs_vm_migrate">
+<!ENTITY author    "stoepie101">
+<!ENTITY version   "2026.06.23j">
+<!ENTITY launch    "Settings/&name;">
+<!ENTITY pluginURL "https://githubusercontent.com">
+]>
+
+<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.0">
+
+<README>
+### ZFS Multi-VM Live Migration Node
+Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing native ZZFS replication streams.
+</README>
+
+<FILE Name="/usr/local/emhttp/plugins/&name;/&name;.page">
+<INLINE>
+<![CDATA[
+Menu="Settings"
+Title="ZFS VM Migrate"
+Icon="clone"
+---
+<?php
+$json_file = "/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json";
+$db = ['GLOBAL_TIMEOUT' => '5m', 'GLOBAL_PADDING' => '10', 'VMS' => []];
+if (file_exists($json_file)) {
+    $loaded = json_decode(file_get_contents($json_file), true);
+    if (is_array($loaded)) { $db = array_merge($db, $loaded); }
+}
+if (isset($_POST['save_globals'])) {
+    $db['GLOBAL_TIMEOUT'] = $_POST['GLOBAL_TIMEOUT'];
+    $db['GLOBAL_PADDING'] = $_POST['GLOBAL_PADDING'];
+    file_put_contents($json_file, json_encode($db, JSON_PRETTY_PRINT));
+    echo "<script>alert('Global settings stored successfully!');</script>";
+}
+if (isset($_POST['add_vm'])) {
+    $new_vm = ['id' => uniqid(), 'name' => trim($_POST['new_name']), 'ip' => trim($_POST['new_ip']), 'share' => trim($_POST['new_share']), 'target_ds' => trim($_POST['new_target_ds'])];
+    if (!empty($new_vm['name'])) {
+        $db['VMS'][] = $new_vm;
+        file_put_contents($json_file, json_encode($db, JSON_PRETTY_PRINT));
+        echo "<script>alert('VM profile registered successfully!');</script>";
+    }
+}
+if (isset($_POST['delete_vm'])) {
+    $target_id = $_POST['delete_id']; $filtered = [];
+    foreach ($db['VMS'] as $v) { if ($v['id'] !== $target_id) { $filtered[] = $v; } }
+    $db['VMS'] = $filtered; file_put_contents($json_file, json_encode($db, JSON_PRETTY_PRINT));
+    echo "<script>alert('VM profile dropped.');</script>";
+}
+?>
+<form method="POST" action="">
+    <h2 style="color:#ff8c00; margin-top:20px;">Global Engine Synchronization Thresholds</h2>
+    <table class="form_table">
+        <tr><td>Operation Timeout Threshold:</td><td><input type="text" name="GLOBAL_TIMEOUT" value="<?=$db['GLOBAL_TIMEOUT']?>" class="text" style="width:60px;"></td></tr>
+        <tr><td>Minimum Free Space Padding (%):</td><td><input type="text" name="GLOBAL_PADDING" value="<?=$db['GLOBAL_PADDING']?>" class="text" style="width:60px;"></td></tr>
+    </table>
+    <div style="margin-top:10px;"><input type="submit" name="save_globals" value="Apply Global Parameters" class="button"></div>
+</form>
+<hr style="border:0; border-top:1px solid #444; margin:30px 0;"/>
+<div>
+    <h2 style="color:#ff8c00;">Orchestrate Live Virtual Machine Migration</h2>
+    <p>Select an active virtual machine node profile from the registered cluster pool matrix:</p><br/>
+    <select id="active_vm_selector_node" size="1">
+        <?php foreach ($db['VMS'] as $v): ?>
+            <option value="<?=htmlspecialchars($v['name'])?>"><?=htmlspecialchars($v['name'])?> (Destination: <?=htmlspecialchars($v['ip'])?>)</option>
+        <?php endforeach; ?>
+    </select>
+    <button type="button" class="button" style="margin-left:15px;" onclick="runDynamicClusterMigration()">Migrate Selected VM</button>
+</div>
+<hr style="border:0; border-top:1px solid #444; margin:30px 0;"/>
+<h2 style="color:#ff8c00;">Registered Virtual Machine Profiles</h2>
+<table class="form_table" style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+    <thead>
+        <tr style="border-bottom:2px solid #555; text-align:left;">
+            <th style="padding:8px;">Target VM Name</th><th style="padding:8px;">Host IP</th><th style="padding:8px;">Origin Share Path</th><th style="padding:8px;">Destination ZFS Dataset</th><th style="padding:8px; text-align:center;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (empty($db['VMS'])): ?>
+            <tr><td colspan="5" style="padding:15px; text-align:center; color:#888;">No virtual machines registered in the active cluster matrix.</td></tr>
+        <?php else: foreach ($db['VMS'] as $vm): ?>
+            <tr style="border-bottom:1px solid #333;">
+                <td style="padding:8px; font-weight:bold; color:#ff8c00;"><?=htmlspecialchars($vm['name'])?></td>
+                <td style="padding:8px;"><?=htmlspecialchars($vm['ip'])?></td>
+                <td style="padding:8px; font-family:monospace;"><?=htmlspecialchars($vm['share'])?></td>
+                <td style="padding:8px; font-family:monospace; color:#ff8c00;"><?=htmlspecialchars($vm['target_ds'])?></td>
+                <td style="padding:8px; text-align:center;">
+                    <form method="POST" action="" style="display:inline;">
+                        <input type="hidden" name="delete_id" value="<?=$vm['id']?>">
+                        <input type="submit" name="delete_vm" value="Remove" class="button" style="background:#800; color:#fff;" onclick="return confirm('Drop permanently?');">
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; endif; ?>
+    </tbody>
+</table>
+<hr style="border:0; border-top:1px solid #444; margin:30px 0;"/>
+<form method="POST" action="">
+    <h2 style="color:#ff8c00;">Add New Virtual Machine Node Configuration</h2>
+    <table class="form_table">
+        <tr><td>Target VM Name:</td><td><input type="text" name="new_name" placeholder="UbuntuMigrate_0" class="text" required></td></tr>
+        <tr><td>Destination Host IP Address:</td><td><input type="text" name="new_ip" placeholder="192.168.4.3" class="text" required></td></tr>
+        <tr><td>Virtual Disk Origin Share Path:</td><td><input type="text" name="new_share" placeholder="/mnt/user/VM_Migrate_0/" class="text" style="width:300px;" required></td></tr>
+        <tr><td>Destination ZFS Dataset Path:</td><td><input type="text" name="new_target_ds" placeholder="ssd_pool/VM_Migrate_0" class="text" style="width:300px;" required></td></tr>
+    </table>
+    <div style="margin-top:10px;"><input type="submit" name="add_vm" value="Register Virtual Machine Node" class="button"></div>
+</form>
+<script>
+function runDynamicClusterMigration() {
+    var e = document.getElementById("active_vm_selector_node");
+    if (!e || e.options.length === 0) { alert("Please register a VM profile first."); return; }
+    var vmTargetName = e.options[e.selectedIndex].value;
+    if(confirm('Initiate zero-downtime peer migration sequence for VM: ' + vmTargetName + '?')) {
+        openBox('/usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh&arg1=' + encodeURIComponent(vmTargetName), 'Cluster Live Handoff Sequence', 600, 800, true);
+    }
+}
+</script>
+]]>
+</INLINE>
+</FILE>
+
+<FILE Run="/bin/bash">
+<INLINE>
+mkdir -p /usr/local/emhttp/plugins/&name;
+mkdir -p /boot/config/plugins/&name;
+wget -q -O /usr/local/emhttp/plugins/&name;/zfs_vm_migrate.sh https://githubusercontent.com
+chmod +x /usr/local/emhttp/plugins/&name;/zfs_vm_migrate.sh
+JSON_FILE="/boot/config/plugins/&name;/zfs_vm_migrate.json"
+if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GLOBAL_PADDING\": \"10\",\n  \"VMS\": []\n}" > "$JSON_FILE"; fi
+</INLINE>
+</FILE>
+
+<FILE Remove="/bin/bash">
+<INLINE>
+rm -rf /usr/local/emhttp/plugins/&name;
+</INLINE>
+</FILE>
+</plugin>
