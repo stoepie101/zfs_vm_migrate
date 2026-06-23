@@ -2,9 +2,9 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23o">
+<!ENTITY version   "2026.06.23m">
 <!ENTITY launch    "Settings/&name;">
-<!ENTITY pluginURL "https://githubusercontent.com">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
 ]>
 
 <plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.12.0">
@@ -19,7 +19,7 @@ Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing n
 <![CDATA[
 Menu="Settings"
 Title="ZFS VM Migrate"
-Icon="clone"
+Icon="/plugins/zfs_vm_migrate/zfs_vm_migrate.png"
 ---
 <?php
 $json_file = "/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json";
@@ -49,22 +49,6 @@ if (isset($_POST['delete_vm'])) {
     echo "<script>alert('VM profile dropped.');</script>";
 }
 ?>
-<!-- FIXED: Custom header styles injected dynamically to force web icon rendering -->
-<script>
-$(function() {
-    var iconUrl = '/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png';
-    $('img[src*="zfs_vm_migrate"]').attr('src', iconUrl);
-    $('.nav-settings .zfs_vm_migrate, i.fa-clone').each(function() {
-        $(this).css({
-            'background-image': 'url(' + iconUrl + ')',
-            'background-size': 'contain',
-            'background-repeat': 'no-repeat',
-            'background-position': 'center'
-        }).removeClass('fa-clone');
-    });
-});
-</script>
-
 <form method="POST" action="">
     <h2 style="color:#ff8c00; margin-top:20px;">Global Engine Synchronization Thresholds</h2>
     <table class="form_table">
@@ -139,15 +123,10 @@ function runDynamicClusterMigration() {
 <FILE Run="/bin/bash">
 <INLINE>
 mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate
-mkdir -p /usr/local/emhttp/plugins/zfs_vm_migrate/images
 mkdir -p /boot/config/plugins/zfs_vm_migrate
-
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh https://githubusercontent.com
 chmod +x /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh
-
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.png https://githubusercontent.com
-wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png https://githubusercontent.com
-
 JSON_FILE="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json"
 if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GLOBAL_PADDING\": \"10\",\n  \"VMS\": []\n}" > "$JSON_FILE"; fi
 </INLINE>
