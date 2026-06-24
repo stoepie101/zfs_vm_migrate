@@ -3,14 +3,24 @@
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY title     "ZFS VM Live Migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.23y">
-<!ENTITY launch    "Settings/&name;">
-<!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
-<!ENTITY iconURL   "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png">
+<!ENTITY version   "2026.06.24a">
+<!ENTITY launch    "Settings/VMLiveMigrate">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main">
+<!ENTITY pluginURL "&gitURL;/&name;.plg">
+<!ENTITY iconURL   "&gitURL;/&name;.png">
 ]>
 
-<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.png" min="6.12.0">
+<PLUGIN 
+    name="&name;" 
+    author="&author;" 
+    version="&version;" 
+    launch="&launch;" 
+    pluginURL="&pluginURL;" 
+    icon="icon-hardware"
+    min="6.12.0"
+>
 
+<!-- icon="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.png"  -->
 
 <README>
 ### ZFS Multi-VM Live Migration Node
@@ -151,11 +161,4 @@ if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GL
 rm -rf /usr/local/emhttp/plugins/zfs_vm_migrate
 </INLINE>
 </FILE>
-<REMOVE Name="&name;">
-  <INLINE>
-    rm -rf /usr/local/emhttp/plugins/&name;
-    <!-- add your other removal commands here -->
-  </INLINE>
-</REMOVE>
-
 </plugin>
