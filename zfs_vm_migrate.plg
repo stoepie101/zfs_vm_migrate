@@ -5,9 +5,8 @@
 <!ENTITY author    "WJRTech">
 <!ENTITY version   "2026.06.24a">
 <!ENTITY launch    "Settings/VMLiveMigrate">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main">
-<!ENTITY pluginURL "&gitURL;/&name;.plg">
-<!ENTITY iconURL   "&gitURL;/&name;.png">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
+<!ENTITY iconURL   "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png">
 ]>
 
 <PLUGIN 
