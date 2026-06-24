@@ -2,18 +2,27 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.24c">
+<!ENTITY version   "2026.06.24d">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
 <!ENTITY iconURL   "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png">
 ]>
 
-<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="docker" min="6.12.0">
+<plugin name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="zfs_vm_migrate.png" min="7.3.1">
 
 <README>
 ### ZFS Multi-VM Live Migration Node
 Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing native ZFS replication streams and dynamic UEFI NVRAM variable patches.
 </README>
+
+<CHANGES>
+### 2026.02.01
+- Fixed bug in settings page
+- Added new feature X
+
+### 2026.01.15
+- Initial release
+</CHANGES>
 
 <FILE Name="/usr/local/emhttp/plugins/&name;/&name;.page">
 <INLINE>
@@ -133,6 +142,7 @@ chmod +x /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.sh
 
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/zfs_vm_migrate.png https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png
 wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/images/zfs_vm_migrate.png https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png
+wget -q -O /usr/local/emhttp/plugins/zfs_vm_migrate/icons/zfs_vm_migrate.png https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png
 
 JSON_FILE="/boot/config/plugins/zfs_vm_migrate/zfs_vm_migrate.json"
 if [ ! -f "$JSON_FILE" ]; then echo -e "{\n  \"GLOBAL_TIMEOUT\": \"5m\",\n  \"GLOBAL_PADDING\": \"10\",\n  \"VMS\": []\n}" > "$JSON_FILE"; fi
