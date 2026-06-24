@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "zfs_vm_migrate">
 <!ENTITY author    "WJRTech">
-<!ENTITY version   "2026.06.24e">
+<!ENTITY version   "2026.06.24a">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.plg">
 <!ENTITY iconURL   "https://raw.githubusercontent.com/stoepie101/zfs_vm_migrate/refs/heads/main/zfs_vm_migrate.png">
@@ -16,12 +16,9 @@ Zero-Downtime Live Migration orchestrator for clustered Unraid nodes utilizing n
 </README>
 
 <CHANGES>
-### 2026.02.01
-- Fixed bug in settings page
-- Added new feature X
+### 2026.06.24
+- initial Version Release
 
-### 2026.01.15
-- Initial release
 </CHANGES>
 
 <FILE Name="/usr/local/emhttp/plugins/&name;/&name;.page">
